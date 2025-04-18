@@ -68,8 +68,17 @@ class _ProductListPageState extends State<ProductListPage> {
                               ),
                               Spacer(),
                               ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                  backgroundColor: Colors.limeAccent.shade400,
+                                ),
                                 onPressed: () {},
-                                child: Text("Add to cart"),
+                                child: Text(
+                                  "Add to cart",
+                                  style: TextStyle(color: Colors.black),
+                                ),
                               ),
                             ],
                           ),
