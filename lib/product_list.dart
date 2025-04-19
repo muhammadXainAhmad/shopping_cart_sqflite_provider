@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:shopping_cart_sqflite_provider/cart_model.dart';
+import 'package:shopping_cart_sqflite_provider/cart_provider.dart';
 import 'package:shopping_cart_sqflite_provider/constants.dart';
+import 'package:shopping_cart_sqflite_provider/db_helper.dart';
 
 class ProductListPage extends StatefulWidget {
   const ProductListPage({super.key});
@@ -11,19 +15,25 @@ class ProductListPage extends StatefulWidget {
 class _ProductListPageState extends State<ProductListPage> {
   @override
   Widget build(BuildContext context) {
+    DbHelper dbHelper = DbHelper();
+    final cart = Provider.of<CartProvider>(context);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.blue,
         centerTitle: true,
         title: Text("Product List", style: TextStyle(color: Colors.white)),
         actions: [
-          Badge(
-            label: Text("0"),
-            child: Icon(
-              Icons.shopping_bag_outlined,
-              color: Colors.white,
-              size: 28,
-            ),
+          Consumer<CartProvider>(
+            builder: (context, value, child) {
+              return Badge(
+                label: Text(value.getCounter().toString(),style: TextStyle(color: Colors.white),),
+                child: Icon(
+                  Icons.shopping_bag_outlined,
+                  color: Colors.white,
+                  size: 28,
+                ),
+              );
+            },
           ),
 
           SizedBox(width: 20),
@@ -74,7 +84,31 @@ class _ProductListPageState extends State<ProductListPage> {
                                   ),
                                   backgroundColor: Colors.limeAccent.shade400,
                                 ),
-                                onPressed: () {},
+                                onPressed: () {
+                                  dbHelper
+                                      .insertItem(
+                                        Cart(
+                                          id: index,
+                                          productId: index.toString(),
+                                          productName:
+                                              productName[index].toString(),
+                                          initialPrice: productPrice[index],
+                                          productPrice: productPrice[index],
+                                          quantity: 1,
+                                          unitTag:
+                                              productUnit[index].toString(),
+                                          image: productImage[index].toString(),
+                                        ),
+                                      )
+                                      .then((value) {
+                                        cart.addTotalPrice(
+                                          double.parse(
+                                            productPrice[index].toString(),
+                                          ),
+                                        );
+                                        cart.addCounter();
+                                      });
+                                },
                                 child: Text(
                                   "Add to cart",
                                   style: TextStyle(color: Colors.black),
