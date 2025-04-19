@@ -15,7 +15,7 @@ class ProductListPage extends StatefulWidget {
 class _ProductListPageState extends State<ProductListPage> {
   @override
   Widget build(BuildContext context) {
-    DbHelper dbHelper = DbHelper();
+    DbHelper? dbHelper = DbHelper();
     final cart = Provider.of<CartProvider>(context);
     return Scaffold(
       appBar: AppBar(
@@ -26,7 +26,10 @@ class _ProductListPageState extends State<ProductListPage> {
           Consumer<CartProvider>(
             builder: (context, value, child) {
               return Badge(
-                label: Text(value.getCounter().toString(),style: TextStyle(color: Colors.white),),
+                label: Text(
+                  value.getCounter().toString(),
+                  style: TextStyle(color: Colors.white),
+                ),
                 child: Icon(
                   Icons.shopping_bag_outlined,
                   color: Colors.white,
@@ -100,7 +103,7 @@ class _ProductListPageState extends State<ProductListPage> {
                                           image: productImage[index].toString(),
                                         ),
                                       )
-                                      .then((value) {
+                                      .then((value) {print("ADDED");
                                         cart.addTotalPrice(
                                           double.parse(
                                             productPrice[index].toString(),

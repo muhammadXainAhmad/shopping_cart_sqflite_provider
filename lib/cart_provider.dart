@@ -17,7 +17,7 @@ class CartProvider extends ChangeNotifier {
 
   void _gettPrefItem() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    _counter = prefs.getInt("cart_item") ?? 0;
+    _counter = prefs.getInt("cart_items") ?? 0;
     _totalPrice = prefs.getDouble("total_price") ?? 0;
     notifyListeners();
   }

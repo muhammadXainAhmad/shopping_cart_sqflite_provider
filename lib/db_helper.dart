@@ -20,7 +20,7 @@ class DbHelper {
     Directory appDir = await getApplicationCacheDirectory();
     String dbPath = join(appDir.path, "cartDb.db");
     return await openDatabase(
-      dbPath,
+      dbPath,version: 1,
       onCreate: (db, version) {
         db.execute(
           'CREATE TABLE cart (id INTEGER PRIMARY KEY , productId VARCHAR UNIQUE,productName TEXT,initialPrice INTEGER, productPrice INTEGER , quantity INTEGER, unitTag TEXT , image TEXT )',
