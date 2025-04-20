@@ -40,6 +40,7 @@ class _CartScreenState extends State<CartScreen> {
 
           SizedBox(width: 20),
         ],
+        iconTheme: IconThemeData(color: Colors.white),
       ),
       body: Column(
         children: [
@@ -110,18 +111,29 @@ class _CartScreenState extends State<CartScreen> {
                                     ],
                                   ),
                                   Spacer(),
-                                  ElevatedButton(
-                                    style: ElevatedButton.styleFrom(
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(8),
-                                      ),
-                                      backgroundColor:
-                                          Colors.limeAccent.shade400,
+                                  Container(
+                                    decoration: BoxDecoration(
+                                      color: Colors.limeAccent.shade400,
+                                      borderRadius: BorderRadius.circular(8),
                                     ),
-                                    onPressed: () {},
-                                    child: Text(
-                                      "Add to cart",
-                                      style: TextStyle(color: Colors.black),
+
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        IconButton(
+                                          onPressed: () {},
+                                          icon: Icon(Icons.add),
+                                        ),
+                                        Text(
+                                          snapshot.data![index].quantity
+                                              .toString(),
+                                        ),
+                                        IconButton(
+                                          onPressed: () {},
+                                          icon: Icon(Icons.remove),
+                                        ),
+                                      ],
                                     ),
                                   ),
                                 ],
@@ -147,10 +159,26 @@ class _CartScreenState extends State<CartScreen> {
 
                 child: Container(
                   color: Colors.blue,
-                  child: ReusableWidget(
-                    title: "Sub Total",
-                    value: r"$" + value.getTotalPrice().toStringAsFixed(2),
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          "Sub Total:",
+                          style: TextStyle(color: Colors.white, fontSize: 24),
+                        ),
+                        Text(
+                          r"$" + value.getTotalPrice().toStringAsFixed(2),
+                          style: TextStyle(color: Colors.white, fontSize: 24),
+                        ),
+                      ],
+                    ),
                   ),
+                  // child: ReusableWidget(
+                  //   title: "Sub Total",
+                  //   value: r"$" + value.getTotalPrice().toStringAsFixed(2),
+                  // ),
                 ),
               );
             },
@@ -161,24 +189,24 @@ class _CartScreenState extends State<CartScreen> {
   }
 }
 
-class ReusableWidget extends StatelessWidget {
-  final String title, value;
-  const ReusableWidget({required this.title, required this.value});
+// class ReusableWidget extends StatelessWidget {
+//   final String title, value;
+//   const ReusableWidget({required this.title, required this.value});
 
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 4),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(title, style: Theme.of(context).textTheme.headlineSmall),
-          Text(
-            value.toString(),
-            style: Theme.of(context).textTheme.headlineSmall,
-          ),
-        ],
-      ),
-    );
-  }
-}
+//   @override
+//   Widget build(BuildContext context) {
+//     return Padding(
+//       padding: const EdgeInsets.symmetric(vertical: 4),
+//       child: Row(
+//         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//         children: [
+//           Text(title, style: Theme.of(context).textTheme.headlineSmall),
+//           Text(
+//             value.toString(),
+//             style: Theme.of(context).textTheme.headlineSmall,
+//           ),
+//         ],
+//       ),
+//     );
+//   }
+// }

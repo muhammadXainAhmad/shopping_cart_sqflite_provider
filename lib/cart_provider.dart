@@ -40,7 +40,7 @@ class CartProvider extends ChangeNotifier {
   }
 
   void removeCounter() {
-    _counter++;
+    _counter--;
     _setPrefItem();
     notifyListeners();
   }
