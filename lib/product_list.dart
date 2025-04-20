@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shopping_cart_sqflite_provider/cart_model.dart';
 import 'package:shopping_cart_sqflite_provider/cart_provider.dart';
+import 'package:shopping_cart_sqflite_provider/cart_screen.dart';
 import 'package:shopping_cart_sqflite_provider/constants.dart';
 import 'package:shopping_cart_sqflite_provider/db_helper.dart';
 
@@ -25,15 +26,23 @@ class _ProductListPageState extends State<ProductListPage> {
         actions: [
           Consumer<CartProvider>(
             builder: (context, value, child) {
-              return Badge(
-                label: Text(
-                  value.getCounter().toString(),
-                  style: TextStyle(color: Colors.white),
-                ),
-                child: Icon(
-                  Icons.shopping_bag_outlined,
-                  color: Colors.white,
-                  size: 28,
+              return InkWell(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => CartScreen()),
+                  );
+                },
+                child: Badge(
+                  label: Text(
+                    value.getCounter().toString(),
+                    style: TextStyle(color: Colors.white),
+                  ),
+                  child: Icon(
+                    Icons.shopping_bag_outlined,
+                    color: Colors.white,
+                    size: 28,
+                  ),
                 ),
               );
             },
@@ -103,7 +112,8 @@ class _ProductListPageState extends State<ProductListPage> {
                                           image: productImage[index].toString(),
                                         ),
                                       )
-                                      .then((value) {print("ADDED");
+                                      .then((value) {
+                                        print("ADDED");
                                         cart.addTotalPrice(
                                           double.parse(
                                             productPrice[index].toString(),
