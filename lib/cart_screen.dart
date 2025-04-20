@@ -123,15 +123,68 @@ class _CartScreenState extends State<CartScreen> {
                                       children: [
                                         IconButton(
                                           onPressed: () {},
-                                          icon: Icon(Icons.add),
+                                          icon: Icon(Icons.remove),
                                         ),
                                         Text(
                                           snapshot.data![index].quantity
                                               .toString(),
                                         ),
                                         IconButton(
-                                          onPressed: () {},
-                                          icon: Icon(Icons.remove),
+                                          onPressed: () {
+                                            int quantity =
+                                                snapshot.data![index].quantity!;
+                                            int price =
+                                                snapshot
+                                                    .data![index]
+                                                    .initialPrice!;
+                                            quantity++;
+                                            int? newPrice = price * quantity;
+                                            dbHelper!
+                                                .updateQuantity(
+                                                  Cart(
+                                                    id:
+                                                        snapshot
+                                                            .data![index]
+                                                            .id,
+                                                    productId:
+                                                        snapshot.data![index].id
+                                                            .toString(),
+                                                    productName:
+                                                        snapshot
+                                                            .data![index]
+                                                            .productName,
+                                                    initialPrice:
+                                                        snapshot
+                                                            .data![index]
+                                                            .initialPrice,
+                                                    productPrice: newPrice,
+                                                    quantity: quantity,
+                                                    unitTag:
+                                                        snapshot
+                                                            .data![index]
+                                                            .unitTag
+                                                            .toString(),
+                                                    image:
+                                                        snapshot
+                                                            .data![index]
+                                                            .image
+                                                            .toString(),
+                                                  ),
+                                                )
+                                                .then((value) {
+                                                  newPrice = 0;
+                                                  quantity = 0;
+                                                  cart.addTotalPrice(
+                                                    double.parse(
+                                                      snapshot
+                                                          .data![index]
+                                                          .initialPrice
+                                                          .toString(),
+                                                    ),
+                                                  );
+                                                });
+                                          },
+                                          icon: Icon(Icons.add),
                                         ),
                                       ],
                                     ),
