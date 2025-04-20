@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shopping_cart_sqflite_provider/cart_model.dart';
 import 'package:shopping_cart_sqflite_provider/cart_provider.dart';
+import 'package:shopping_cart_sqflite_provider/db_helper.dart';
 
 class CartScreen extends StatefulWidget {
   const CartScreen({super.key});
@@ -11,6 +12,7 @@ class CartScreen extends StatefulWidget {
 }
 
 class _CartScreenState extends State<CartScreen> {
+  DbHelper? dbHelper = DbHelper();
   @override
   Widget build(BuildContext context) {
     final cart = Provider.of<CartProvider>(context);
@@ -68,7 +70,9 @@ class _CartScreenState extends State<CartScreen> {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
                                         children: [
                                           Text(
                                             snapshot.data![index].productName
@@ -78,10 +82,26 @@ class _CartScreenState extends State<CartScreen> {
                                               fontWeight: FontWeight.bold,
                                             ),
                                           ),
-                                          InkWell(onTap: () {
-
-                                          },
-                                            child: Icon(Icons.delete,color: Colors.red,))
+                                          InkWell(
+                                            onTap: () {
+                                              dbHelper!.deleteItem(
+                                                snapshot.data![index].id!,
+                                              );
+                                              cart.removeCounter();
+                                              cart.removeTotalPrice(
+                                                double.parse(
+                                                  snapshot
+                                                      .data![index]
+                                                      .productPrice
+                                                      .toString(),
+                                                ),
+                                              );
+                                            },
+                                            child: Icon(
+                                              Icons.delete,
+                                              color: Colors.red,
+                                            ),
+                                          ),
                                         ],
                                       ),
                                       Text(
@@ -117,20 +137,23 @@ class _CartScreenState extends State<CartScreen> {
               return Text("");
             },
           ),
-          Container(
-            color: Colors.blue,
-            child: Consumer<CartProvider>(
-              builder: (context, value, child) {
-                return Column(
-                  children: [
-                    ReusableWidget(
-                      title: "Sub Total",
-                      value: r"$" + value.getTotalPrice().toStringAsFixed(2),
-                    ),
-                  ],
-                );
-              },
-            ),
+          Consumer<CartProvider>(
+            builder: (context, value, child) {
+              return Visibility(
+                visible:
+                    value.getTotalPrice().toStringAsFixed(2) == "0.00"
+                        ? false
+                        : true,
+
+                child: Container(
+                  color: Colors.blue,
+                  child: ReusableWidget(
+                    title: "Sub Total",
+                    value: r"$" + value.getTotalPrice().toStringAsFixed(2),
+                  ),
+                ),
+              );
+            },
           ),
         ],
       ),
