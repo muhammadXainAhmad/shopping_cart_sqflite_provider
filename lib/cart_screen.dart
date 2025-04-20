@@ -68,13 +68,21 @@ class _CartScreenState extends State<CartScreen> {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      Text(
-                                        snapshot.data![index].productName
-                                            .toString(),
-                                        style: TextStyle(
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.bold,
-                                        ),
+                                      Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            snapshot.data![index].productName
+                                                .toString(),
+                                            style: TextStyle(
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                          InkWell(onTap: () {
+
+                                          },
+                                            child: Icon(Icons.delete,color: Colors.red,))
+                                        ],
                                       ),
                                       Text(
                                         '${snapshot.data![index].unitTag.toString()} \$${snapshot.data![index].productPrice.toString()}',
@@ -109,17 +117,20 @@ class _CartScreenState extends State<CartScreen> {
               return Text("");
             },
           ),
-          Consumer<CartProvider>(
-            builder: (context, value, child) {
-              return Column(
-                children: [
-                  ReusableWidget(
-                    title: "Sub Total",
-                    value: r"$" + value.getTotalPrice().toStringAsFixed(2),
-                  ),
-                ],
-              );
-            },
+          Container(
+            color: Colors.blue,
+            child: Consumer<CartProvider>(
+              builder: (context, value, child) {
+                return Column(
+                  children: [
+                    ReusableWidget(
+                      title: "Sub Total",
+                      value: r"$" + value.getTotalPrice().toStringAsFixed(2),
+                    ),
+                  ],
+                );
+              },
+            ),
           ),
         ],
       ),
@@ -138,8 +149,11 @@ class ReusableWidget extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(title, style: Theme.of(context).textTheme.bodySmall),
-          Text(value.toString(), style: Theme.of(context).textTheme.bodySmall),
+          Text(title, style: Theme.of(context).textTheme.headlineSmall),
+          Text(
+            value.toString(),
+            style: Theme.of(context).textTheme.headlineSmall,
+          ),
         ],
       ),
     );
