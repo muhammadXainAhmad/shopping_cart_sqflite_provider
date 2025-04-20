@@ -20,7 +20,8 @@ class DbHelper {
     Directory appDir = await getApplicationCacheDirectory();
     String dbPath = join(appDir.path, "cartDb.db");
     return await openDatabase(
-      dbPath,version: 1,
+      dbPath,
+      version: 1,
       onCreate: (db, version) {
         db.execute(
           'CREATE TABLE cart (id INTEGER PRIMARY KEY , productId VARCHAR UNIQUE,productName TEXT,initialPrice INTEGER, productPrice INTEGER , quantity INTEGER, unitTag TEXT , image TEXT )',
@@ -33,5 +34,13 @@ class DbHelper {
     var dbClient = await getDb();
     await dbClient!.insert("cart", cart.toMap());
     return cart;
+  }
+
+  Future<List<Cart>> getCartList() async {
+    var dbClient = await getDb();
+    final List<Map<String, Object?>> queryResult = await dbClient!.query(
+      "cart",
+    );
+    return queryResult.map((e) => Cart.fromMap(e)).toList();
   }
 }
