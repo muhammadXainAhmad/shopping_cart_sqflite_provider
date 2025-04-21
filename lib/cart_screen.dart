@@ -20,7 +20,10 @@ class _CartScreenState extends State<CartScreen> {
       appBar: AppBar(
         backgroundColor: Colors.blue,
         centerTitle: true,
-        title: Text("My Cart Items", style: TextStyle(color: Colors.white)),
+        title: Text(
+          "My Cart Items",
+          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+        ),
         actions: [
           Consumer<CartProvider>(
             builder: (context, value, child) {
@@ -46,26 +49,19 @@ class _CartScreenState extends State<CartScreen> {
         padding: const EdgeInsets.all(8.0),
         child: Column(
           children: [
-            FutureBuilder(
-              future: cart.getData(),
-              builder: (context, AsyncSnapshot<List<Cart>> snapshot) {
-                if (snapshot.data!.isEmpty) {
-                  return Expanded(
-                    child: Column(
+            Expanded(
+              child: FutureBuilder(
+                future: cart.getData(),
+                builder: (context, AsyncSnapshot<List<Cart>> snapshot) {
+                  if (snapshot.data!.isEmpty) {
+                    return Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Center(
-                          child: Text(
-                            "Cart is empty",
-                            style: TextStyle(fontSize: 24),
-                          ),
-                        ),
+                        Center(child: Image.asset("assets/emptyCart.png")),
                       ],
-                    ),
-                  );
-                } else {
-                  return Expanded(
-                    child: ListView.builder(
+                    );
+                  } else {
+                    return ListView.builder(
                       itemCount: snapshot.data!.length,
                       itemBuilder: (context, index) {
                         return Card(
@@ -132,7 +128,7 @@ class _CartScreenState extends State<CartScreen> {
                                         color: Colors.limeAccent.shade400,
                                         borderRadius: BorderRadius.circular(8),
                                       ),
-
+                                  
                                       child: Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
@@ -275,10 +271,10 @@ class _CartScreenState extends State<CartScreen> {
                           ),
                         );
                       },
-                    ),
-                  );
-                }
-              },
+                    );
+                  }
+                },
+              ),
             ),
             Consumer<CartProvider>(
               builder: (context, value, child) {

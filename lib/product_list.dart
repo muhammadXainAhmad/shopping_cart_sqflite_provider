@@ -22,7 +22,10 @@ class _ProductListPageState extends State<ProductListPage> {
       appBar: AppBar(
         backgroundColor: Colors.blue,
         centerTitle: true,
-        title: Text("Product List", style: TextStyle(color: Colors.white)),
+        title: Text(
+          "Product List",
+          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+        ),
         actions: [
           Consumer<CartProvider>(
             builder: (context, value, child) {
