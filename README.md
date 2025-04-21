@@ -34,7 +34,7 @@ A minimal shopping cart app built using **Flutter**, with **Sqflite** for local 
 <img src="assets/cartPage3.png" width="300"/>
 
 ### **Empty Cart**
-<img src="assets/emptyCart.png" width="300"/>
+<img src="assets/emptyCartPage.png" width="300"/>
 ---
 
 ## Dependencies ⚙️
