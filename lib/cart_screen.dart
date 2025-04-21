@@ -45,23 +45,23 @@ class _CartScreenState extends State<CartScreen> {
         ],
         iconTheme: IconThemeData(color: Colors.white),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          children: [
-            Expanded(
-              child: FutureBuilder(
-                future: cart.getData(),
-                builder: (context, AsyncSnapshot<List<Cart>> snapshot) {
-                  if (snapshot.data!.isEmpty) {
-                    return Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Center(child: Image.asset("assets/emptyCart.png")),
-                      ],
-                    );
-                  } else {
-                    return ListView.builder(
+      body: Column(
+        children: [
+          Expanded(
+            child: FutureBuilder(
+              future: cart.getData(),
+              builder: (context, AsyncSnapshot<List<Cart>> snapshot) {
+                if (snapshot.data!.isEmpty) {
+                  return Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Center(child: Image.asset("assets/emptyCart.png")),
+                    ],
+                  );
+                } else {
+                  return Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: ListView.builder(
                       itemCount: snapshot.data!.length,
                       itemBuilder: (context, index) {
                         return Card(
@@ -128,7 +128,7 @@ class _CartScreenState extends State<CartScreen> {
                                         color: Colors.limeAccent.shade400,
                                         borderRadius: BorderRadius.circular(8),
                                       ),
-                                  
+
                                       child: Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
@@ -271,24 +271,35 @@ class _CartScreenState extends State<CartScreen> {
                           ),
                         );
                       },
-                    );
-                  }
-                },
-              ),
+                    ),
+                  );
+                }
+              },
             ),
-            Consumer<CartProvider>(
-              builder: (context, value, child) {
-                return Visibility(
-                  visible:
-                      value.getTotalPrice().toStringAsFixed(2) == "0.00"
-                          ? false
-                          : true,
+          ),
+          Consumer<CartProvider>(
+            builder: (context, value, child) {
+              return Visibility(
+                visible:
+                    value.getTotalPrice().toStringAsFixed(2) == "0.00"
+                        ? false
+                        : true,
 
-                  child: Container(
+                child: Container(
+                  height: 50,
+                  decoration: BoxDecoration(
                     color: Colors.blue,
-                    child: Column(
-                      children: [
-                        Row(
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(12),
+                      topRight: Radius.circular(12),
+                    ),
+                  ),
+
+                  child: Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
@@ -307,14 +318,14 @@ class _CartScreenState extends State<CartScreen> {
                             ),
                           ],
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
-                );
-              },
-            ),
-          ],
-        ),
+                ),
+              );
+            },
+          ),
+        ],
       ),
     );
   }
